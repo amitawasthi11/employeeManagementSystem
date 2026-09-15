@@ -1,10 +1,22 @@
-import React from 'react'
+import { useState } from "react"
 
-const header = () => {
+
+
+
+
+const header = ({data}) => {
+  const username = data ? data.firstName : 'Admin'
+  
+const logOutUser = () =>{
+   localStorage.setItem('loggedInUser','')
+   window.location.reload();
+}
+ 
+
   return (
     <div className='flex items-end justify-between' >
-        <h1 className='text-2xl'>hello <br /><span className='text-3xl'>Amit</span></h1>
-        <button className='bg-red-500 cursor-pointer text-lg font-medium text-white px-5 py-2 rounded-small' >logout</button>
+        <h1 className='text-2xl'>hello <br /><span className='text-3xl'>{username}</span> </h1>
+        <button onClick={logOutUser} className='bg-red-500 cursor-pointer text-lg font-medium text-white px-5 py-2 rounded-small' >logout</button>
     </div>
   )
 }
