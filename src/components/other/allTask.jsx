@@ -17,8 +17,8 @@ console.log(authData.employees  );
         <h5 className=' w-1/5'>Failed</h5>
      </div>
      <div className='h-[80%] overflow-auto'>
-      {authData.employees.map(function(elem){
-      return <div className='mb-2  py-2 px-4 flex justify-between rounded'>
+      {authData.employees.map(function(elem,idx){
+      return <div key={idx} className='mb-2  py-2 px-4 flex justify-between rounded'>
         <h2 className=' w-1/5' >{elem.firstName}</h2>
         <h3 className='text-lg font-medium text-blue-600 w-1/5'>{elem.taskCounts.newTask}</h3>
         <h5 className='text-lg font-medium text-yellow-400 w-1/5'>{elem.taskCounts.active}</h5>
