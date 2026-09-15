@@ -1,19 +1,33 @@
 import React from 'react'
 import { useState } from 'react'
+import newTask from '../taskList/newTask'
 
 const createTask = () => {
 
         const [taskTitle, setTaskTitle] = useState('')
         const [taskDescription, setTaskDescription] = useState('')
         const [taskDate, setTaskDate] = useState('')
-        const [alignTo, setAlignTo] = useState('')
+        const [asignTo, setAsignTo] = useState('')
         const [category, setCategory] = useState('')
+        const [newTask, setNewTask] = useState({})
 
         const submitHandler = (e) =>{
           e.preventDefault();
-          console.log(taskTitle,taskDate,taskDescription,alignTo,category);
-          setCategory('')
-          setAlignTo('')
+          console.log(taskTitle,taskDate,taskDescription,asignTo,category);
+         setNewTask({taskTitle,taskDescription,taskDate,category,active:false,newTask:true,failed:false,completed:false})
+        const data = JSON.parse(localStorage.getItem('employees'))
+        
+        data.forEach(function(elem){
+          if(asignTo == elem.firstName){
+            elem.tasks.push(newTask) 
+            console.log(elem);  
+          }
+        })
+        
+        localStorage.setItem('employees',JSON.stringify(data))
+         
+         setCategory('')
+          setAsignTo('')
           setTaskDate('');
           setTaskDescription('');
           setTaskTitle('')
@@ -43,8 +57,8 @@ const createTask = () => {
             </div>
            <div> 
             <h3 className='text-sm text-gray-300 mb-0.5'>Assign to</h3>
-            <input value={alignTo} onChange={(e)=>{
-              setAlignTo(e.target.value);
+            <input value={asignTo} onChange={(e)=>{
+              setAsignTo(e.target.value);
             }} className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4 ' type=" " placeholder='employee name' />
             </div>
            <div>

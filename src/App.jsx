@@ -21,15 +21,12 @@ const App = () => {
          if(loggedInUser){
             const userData = JSON.parse(loggedInUser);
             setUser(userData.role)
-            setLoggedInUserData(userData.data)
-            
-            
+            setLoggedInUserData(userData.data)     
          }
-         
       } 
     },[authData])
     
-
+ 
     const handleLogin = (email,password) =>{
        const admin = authData?.admin?.find(
         (a) => email === a.email && password === a.password
@@ -80,7 +77,7 @@ const App = () => {
     {user == 'admin' ? <AdminDashboard/> : <EmployeeDashboard/>} */}
                 {!user && <Login handleLogin={handleLogin} />}
 
-          {user == 'admin'?<AdminDashboard  data = {loggedInUserData}/> : (user == 'employee'?<EmployeeDashboard data = {loggedInUserData}/>:null)}
+          {user == 'admin'?<AdminDashboard changeUser={setUser} data = {loggedInUserData}/> : (user == 'employee'?<EmployeeDashboard  changeUser={setUser} data = {loggedInUserData}/>:null)}
 
     </>
   )
