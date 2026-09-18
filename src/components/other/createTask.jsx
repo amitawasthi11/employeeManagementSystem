@@ -1,40 +1,60 @@
 import React from 'react'
-import { useState } from 'react'
-import newTask from '../taskList/newTask'
+import { useState,useContext } from 'react'
+// import newTask from '../taskList/newTask'
+import { AuthContext } from '../../context/authProvider'
 
 const createTask = () => {
 
+        const [userData,setUserData] =  useContext(AuthContext);
         const [taskTitle, setTaskTitle] = useState('')
         const [taskDescription, setTaskDescription] = useState('')
         const [taskDate, setTaskDate] = useState('')
         const [asignTo, setAsignTo] = useState('')
         const [category, setCategory] = useState('')
-        const [newTask, setNewTask] = useState({})
+        // const [newTask, setNewTask] = useState({})
 
-        const submitHandler = (e) =>{
-          e.preventDefault();
-          console.log(taskTitle,taskDate,taskDescription,asignTo,category);
-         setNewTask({taskTitle,taskDescription,taskDate,category,active:false,newTask:true,failed:false,completed:false})
-        const data = JSON.parse(localStorage.getItem('employees'))
-        
-        data.forEach(function(elem){
-          if(asignTo == elem.firstName){
-            elem.tasks.push(newTask) 
-            console.log(elem);  
-          }
-        })
-        
-        localStorage.setItem('employees',JSON.stringify(data))
-         
-         setCategory('')
-          setAsignTo('')
-          setTaskDate('');
-          setTaskDescription('');
-          setTaskTitle('')
-                   
-        }
+       const submitHandler = (e) => {
+  e.preventDefault();
 
+  const newTask = {
+    taskTitle,
+    taskDescription,
+    taskDate,
+    category,
+    active: false,
+    newTask: true,
+    failed: false,
+    completed: false
+  };
 
+  const data = userData.employees;
+
+  data.forEach(function(elem) {
+    if (asignTo === elem.firstName) {
+      elem.tasks.push(newTask);
+      elem.taskCounts.newTask = elem.taskCounts.newTask + 1;
+    }
+  });
+
+  setUserData({
+    ...userData,
+    employees: data
+  });
+
+  console.log(data);
+
+  localStorage.setItem(
+    'employees',
+    JSON.stringify(data)
+  );
+
+  setCategory('');
+  setAsignTo('');
+  setTaskDate('');
+  setTaskDescription('');
+  setTaskTitle('');
+};
+   
   return (
     
         <div className='p-5 bg-[#1c1c1c] mt-7 rounded'>
